@@ -75,7 +75,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Hadolint ${{ matrix.dockerfile }}
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@v3.3.0
         with:
           dockerfile: ${{ matrix.dockerfile }}
           # These are deliberately old/insecure base images; don't fail the build
