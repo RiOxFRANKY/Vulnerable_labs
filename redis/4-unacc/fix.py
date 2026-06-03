@@ -1,4 +1,3 @@
-import sys
 path = '/home/shuvadip/Vulnerable_labs/redis/4-unacc/n0b0dyCN-redis-rogue-server/redis-rogue-server.py'
 with open(path, 'r') as f:
     lines = f.readlines()
