@@ -42,11 +42,11 @@ def simulate_active(host, port):
         s.sendall(b"*3\r\n$3\r\nSET\r\n$8\r\ntest_key\r\n$10\r\ntest_value\r\n")
         resp1 = s.recv(1024)
         print(f"[+] Redis SET test_key: {resp1.decode().strip()}")
-        
+
         s.sendall(b"*2\r\n$3\r\nGET\r\n$8\r\ntest_key\r\n")
         resp2 = s.recv(1024)
         print(f"[+] Redis GET test_key: {resp2.decode().strip()}")
-        
+
         s.sendall(b"*2\r\n$3\r\nDEL\r\n$8\r\ntest_key\r\n")
         resp3 = s.recv(1024)
         print(f"[+] Redis DEL test_key: {resp3.decode().strip()}")
@@ -64,7 +64,7 @@ def main():
 
     host = args.target
     port = args.port
-    
+
     print(f"[*] Target: {host}:{port}")
     if args.mode == "check":
         if not check_target(host, port):

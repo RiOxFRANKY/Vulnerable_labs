@@ -42,7 +42,7 @@ def simulate_active(target):
         print(f"[+] Fetched blog posts via WordPress REST API (HTTP {r1.status_code})")
         if r1.status_code == 200:
             print(f"[+] Found {len(r1.json())} published posts")
-            
+
         r2 = requests.get(f"{target}/wp-json/wp/v2/users", timeout=10, verify=False)
         print(f"[+] Fetched users list via WordPress REST API (HTTP {r2.status_code})")
         if r2.status_code == 200:
@@ -58,7 +58,7 @@ def main():
     args = parser.parse_args()
 
     target = args.target.rstrip("/")
-    
+
     print(f"[*] Target: {target}")
     if args.mode == "check":
         if not check_target(target):

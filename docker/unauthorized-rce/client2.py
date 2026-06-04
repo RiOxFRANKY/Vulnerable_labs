@@ -34,7 +34,7 @@ def simulate_active(target):
         if r1.status_code == 200:
             containers = r1.json()
             print(f"[+] Total containers: {len(containers)}")
-            
+
         r2 = requests.get(f"{target}/images/json", timeout=10, verify=False)
         print(f"[+] Listed images (HTTP {r2.status_code})")
         if r2.status_code == 200:
@@ -51,7 +51,7 @@ def main():
     args = parser.parse_args()
 
     target = args.target.rstrip("/")
-    
+
     print(f"[*] Target: {target}")
     if args.mode == "check":
         if not check_target(target):

@@ -39,7 +39,7 @@ def main():
     args = parser.parse_args()
 
     target = args.target.rstrip("/")
-    
+
     print(f"[*] Target: {target}")
     if args.mode == "check":
         if not check_target(target):
