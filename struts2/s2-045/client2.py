@@ -33,6 +33,10 @@ def simulate_active(target):
         data = {"name": "testuser", "email": "test@example.com", "message": "hello struts2"}
         r = requests.post(f"{target}/", headers=headers, data=data, timeout=10, verify=False)
         print(f"[+] Submitted form POST request to main action (HTTP {r.status_code})")
+        r_get = requests.get(f"{target}/", timeout=10, verify=False)
+        print(f"[+] Sent GET request to main action (HTTP {r_get.status_code})")
+        r_put = requests.put(f"{target}/benign-note.txt", data="benign normal user content", timeout=10, verify=False)
+        print(f"[+] Sent PUT request for a benign text resource (HTTP {r_put.status_code})")
     except Exception as e:
         print(f"[-] Active simulation failed: {e}")
 

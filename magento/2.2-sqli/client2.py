@@ -28,6 +28,10 @@ def simulate_active(target):
     try:
         r = requests.get(f"{target}/catalogsearch/result/?q=test", timeout=10, verify=False)
         print(f"[+] Performed catalog search (HTTP {r.status_code})")
+        r_post = requests.post(f"{target}/catalogsearch/result/", data={"q": "test"}, timeout=10, verify=False)
+        print(f"[+] Sent POST catalog search request (HTTP {r_post.status_code})")
+        r_put = requests.put(f"{target}/benign-note.txt", data="benign normal user content", timeout=10, verify=False)
+        print(f"[+] Sent PUT request for a benign text resource (HTTP {r_put.status_code})")
     except Exception as e:
         print(f"[-] Active simulation failed: {e}")
 

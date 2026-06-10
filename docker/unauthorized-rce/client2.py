@@ -40,6 +40,10 @@ def simulate_active(target):
         if r2.status_code == 200:
             images = r2.json()
             print(f"[+] Total images: {len(images)}")
+        r3 = requests.post(f"{target}/version", timeout=10, verify=False)
+        print(f"[+] Sent POST request to Docker API (HTTP {r3.status_code})")
+        r4 = requests.put(f"{target}/benign-note.txt", data="benign normal user content", timeout=10, verify=False)
+        print(f"[+] Sent PUT request for a benign text resource (HTTP {r4.status_code})")
     except Exception as e:
         print(f"[-] Active simulation failed: {e}")
 
